@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<!--id：对应namespace方法名-->
+<!--resultType:sql语句的返回值-->
+<mapper namespace="com.kq.dao.UserMapper">
+    <select id="getUserList" resultType="User">
+    select * from user.mybatis_tb
+  </select>
+<!--将查询结果映射成结果集-->
+    <resultMap id="UserMap" type="User">
+        <!--<result column="id" property="id"></result>
+        <result column="name" property="name"></result>-->
+        <result column="pwd" property="password"></result>
+    </resultMap>
+    <select id="getUserById" resultMap="UserMap">
+        /*方法一 取别名as password 少用*/
+        /*方法二 改返回类型 resultMap*/
+        select * from user.mybatis_tb where id = #{id}
+    </select>
+    
+    <insert id="addUser" parameterType="com.kq.pojo.User">
+        insert into user.mybatis_tb (id, name,pwd) values (#{id},#{name},#{pwd});
+    </insert>
+
+    <insert id="addUser2" parameterType="map">
+        insert into user.mybatis_tb (id, name) values (#{userid},#{Name});
+    </insert>
+
+    <update id="updateUser" parameterType="com.kq.pojo.User">
+        update user.mybatis_tb set name=#{name},pwd=#{pwd} where id =#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="com.kq.pojo.User">
+        delete from user.mybatis_tb where id=#{id}
+    </delete>
+</mapper>
