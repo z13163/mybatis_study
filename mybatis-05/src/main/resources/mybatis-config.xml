@@ -27,8 +27,12 @@
         </environment>
     </environments>
 <!--    每一个Mapper都需要在核心配置中注册-->
-   <mappers>
+<!--   <mappers>
         <mapper resource="com/kq/dao/UserMapper.xml"/>
+    </mappers>-->
+<!--    绑定接口-->
+    <mappers>
+        <mapper class="com.kq.dao.UserMapper"></mapper>
     </mappers>
 
 </configuration>
