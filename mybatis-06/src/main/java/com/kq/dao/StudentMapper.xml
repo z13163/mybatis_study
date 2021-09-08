@@ -5,6 +5,45 @@
 <!--namespace绑定一个对应的Dao/Mapper接口-->
 <!--id：对应namespace方法名-->
 <!--resultType:sql语句的返回值-->
-<mapper namespace="com.kq.dao.StudentMapper">
+<mapper namespace="com.StudentMapper">
 
+<!--    这里使用别名-->
+
+<!--    <select id="getStudent" resultType="StudentTeacher">
+        select s.id,s.name,t.name from user.student s,user.teacher t where s.tid = t.id;
+    </select>-->
+<!--
+    1.查询出所有的学生信息
+    2.根据tid再去查老师  子查询
+-->
+    <select id="getStudent" resultMap="StudentTeacher">
+        select * from user.student
+    </select>
+    <resultMap id="StudentTeacher" type="Student">
+        <!--        <id property="id" column="id"/>-->
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+<!--        复杂的属性，单独处理，对象:assocation 集合:collection-->
+        <association property="teacher" column="tid" javaType="Teacher" select="getTeacher"/>
+    </resultMap>
+    <select id="getTeacher" resultType="Teacher">
+        select * from user.teacher where id=#{id}
+    </select>
+
+
+<!--    =========================================-->
+<!--    方法二-->
+    <select id="getStudent2" resultMap="StudentTeacher2">
+        select s.id sid,s.name sname,t.id tid,t.name tname from user.student s,user.teacher t where s.tid = t.id;
+    </select>
+<!--sql取了别名 就要在映射写相应的别名-->
+    <resultMap id="StudentTeacher2" type="Student">
+        <result column="sid" property="id"/>
+        <result column="sname" property="name"/>
+<!--        复杂类型 assocation-->
+        <association property="teacher"  javaType="Teacher">
+            <result property="id" column="tid"/>
+            <result property="name" column="tname"/>
+        </association>
+    </resultMap>
 </mapper>

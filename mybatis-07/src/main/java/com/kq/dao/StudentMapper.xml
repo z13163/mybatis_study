@@ -5,10 +5,12 @@
 <!--namespace绑定一个对应的Dao/Mapper接口-->
 <!--id：对应namespace方法名-->
 <!--resultType:sql语句的返回值-->
-<mapper namespace="com.TeacherMapper">
+<mapper namespace="com.com.kq.dao.StudentMapper">
 
-<!--    或者设置别名 resultType="Teacher"-->
-    <select id="getTeacher" resultType="com.Teacher">
-        select * from user.teacher where id=#{id}
-    </select>
+<!--    这里使用别名-->
+
+<!--    <select id="getStudent" resultType="StudentTeacher">
+        select s.id,s.name,t.name from user.student s,user.teacher t where s.tid = t.id;
+    </select>-->
+
 </mapper>
