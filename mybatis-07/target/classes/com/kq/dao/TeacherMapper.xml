@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<!--id：对应namespace方法名-->
+<!--resultType:sql语句的返回值-->
+<mapper namespace="com.kq.dao.TeacherMapper">
+    <select id="getTeacherStudent" resultMap="TeacherStudent">
+        select t.id tid,t.name tname,s.name sname,s.id sid
+        from user.teacher t,user.student s
+        where t.id=s.tid and t.id=#{tid};
+    </select>
+    <resultMap id="TeacherStudent" type="Teacher">
+        <result column="tid" property="id"/>
+        <result column="tname" property="name"/>
+        <collection property="students" column="tid" ofType="Student" >
+            <result property="id" column="sid"/>
+            <result property="name" column="sname"/>
+            <result property="tid" column="tid"/>
+        </collection>
+    </resultMap>
+    
+<!--    -=========================================================-->
+    
+    <select id="getTeacherStudent2" resultMap="TeacherStudent2">
+        select *
+        from user.teacher
+        where id=#{tid}
+    </select>
+
+    <resultMap id="TeacherStudent2" type="Teacher">
+<!--        相同可省略-->
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="students" column="id" javaType="ArrayList" select="getStudent"></collection>
+    </resultMap>
+    <select id="getStudent" resultType="Student">
+        select * from user.student where tid=#{tid}
+    </select>
+</mapper>

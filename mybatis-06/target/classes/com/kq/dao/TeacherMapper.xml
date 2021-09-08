@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<!--id：对应namespace方法名-->
+<!--resultType:sql语句的返回值-->
+<mapper namespace="com.kq.dao.TeacherMapper">
+
+<!--    或者设置别名 resultType="Teacher"-->
+    <select id="getTeacher" resultType="com.kq.pojo.Teacher">
+        select * from user.teacher where id=#{id}
+    </select>
+</mapper>
