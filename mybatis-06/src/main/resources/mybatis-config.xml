@@ -9,7 +9,8 @@
         <setting name="logImpl" value="LOG4J"/>
     </settings>
     <typeAliases>
-        <typeAlias type="com.kq.pojo.User" alias="User"></typeAlias>
+<!--        <typeAlias type="com.kq.pojo.User" alias="User"></typeAlias>-->
+        <typeAlias type="com.kq.pojo.Teacher" alias="Teacher"></typeAlias>
     </typeAliases>
     <environments default="development">
         <environment id="development">
@@ -31,8 +32,10 @@
         <mapper resource="com/kq/dao/UserMapper.xml"/>
     </mappers>-->
 <!--    绑定接口-->
+<!--    不能使用通配是坑-->
     <mappers>
-        <mapper class="com.kq.dao.UserMapper"></mapper>
+        <mapper resource="com/kq/dao/TeacherMapper.xml"/>
+        <mapper resource="com/kq/dao/StudentMapper.xml"/>
     </mappers>
 
 </configuration>
