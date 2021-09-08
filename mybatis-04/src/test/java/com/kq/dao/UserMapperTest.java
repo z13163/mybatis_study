@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class UserMapperTest {
 
+    //在要使用Log4j的类中
     static Logger logger = Logger.getLogger(UserMapperTest.class);
 
     @Test
@@ -57,6 +58,8 @@ public class UserMapperTest {
     @Test
     public void testLog4j(){
 
+        logger.info("进入了info方法");
+        logger.debug("进入了debug方式");
 
     }
 
@@ -120,5 +123,19 @@ public class UserMapperTest {
             System.out.println("删除失败");
         }
         sqlSession.close();
+    }
+
+    @Test
+    public void getUserLimit(){
+
+        SqlSession sqlSession = MybatisUtils.sqlSession();
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        HashMap<String, Integer> paramap = new HashMap<String, Integer>();
+        paramap.put("startIndex",0);
+        paramap.put("pageSize",2);
+        List<User> users = mapper.userLimit(paramap);
+        for (User user : users) {
+            System.out.println(user);
+        }
     }
 }

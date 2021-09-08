@@ -19,4 +19,7 @@ public interface UserMapper {
     int updateUser(User user);
     //删除用户
     int deleteUser(int id);
+
+    //limit获取数据
+    List<User> userLimit (Map<String,Integer> map);
 }
