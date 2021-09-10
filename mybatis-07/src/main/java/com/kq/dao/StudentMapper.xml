@@ -5,7 +5,7 @@
 <!--namespace绑定一个对应的Dao/Mapper接口-->
 <!--id：对应namespace方法名-->
 <!--resultType:sql语句的返回值-->
-<mapper namespace="com.com.kq.dao.StudentMapper">
+<mapper namespace="com.kq.dao.StudentMapper">
 
 <!--    这里使用别名-->
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<!--id：对应namespace方法名-->
+<!--resultType:sql语句的返回值-->
+<mapper namespace="com.kq.dao.BlogMapper">
+
+<!--    提取sql片段-->
+    <sql id="sql-author">
+        <if test="author!=null">
+            and  author=#{author}
+        </if>
+    </sql>
+<!--    插入数据-->
+    <insert id="addBlog" parameterType="Blog">
+        insert into user.blog
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="title!=null">
+                #{title},
+            </if>
+            <if test="author!=null">
+                #{author},
+            </if>
+            <if test="createTime!=null">
+                #{createTime},
+            </if>
+            <if test="views!=null">
+                #{views}
+            </if>
+        </trim>
+
+    </insert>
+<!--    查询博客-->
+<!--    因为#{...}解析成sql语句时候，会在变量外侧自动加单引号'  '，
+    所以这里 % 需要使用双引号"  "，不能使用单引号 '  '，不然会查不到任何结果。-->
+<!--    concat('%',#{title},'%')-->
+<!--    '%'#{title}'%'  查询不到结果-->
+
+    <select id="queryBlogByIF" parameterType="map" resultType="Blog">
+        select *
+        from user.blog
+        <where>
+            <if test="title!=null">
+                and  title like concat('%',#{title},'%')
+            </if>
+            <include refid="sql-author"></include>
+        </where>
+    </select>
+<!--    尽量不适用where 1=1  所以使用where标签 可得修改-->
+<!--    select *
+    from user.blog
+    where 1=1
+    <if test="title!=null">
+        and  title like concat('%',#{title},'%')
+    </if>
+    <if test="author!=null">
+        and  author=#{author}
+    </if>-->
+
+<!--    choose是单选 如果多个条件满足 优先级为主 不再往下走-->
+    <select id="queryBlogByChoose" parameterType="map" resultType="Blog">
+        select * from user.blog
+        <where>
+            <choose>
+                <when test="title!=null">
+                    and  title=#{title}
+                </when>
+                <when test="author!=null">
+                    and  author=#{author}
+                </when>
+                <otherwise>
+                    and views=#{views}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+<!--    更新博客-->
+    <update id="updateBlog" parameterType="Blog">
+        update user.blog
+    <set>
+        <if test="title!=null">title=#{title},</if>
+        <if test="author!=null">author=#{author},</if>
+        <if test="createTime!=null">createTime=#{createTime},</if>
+        <if test="views!=null">views=#{views}</if>
+    </set>
+        where id=#{id}
+    </update>
+
+
+<!--    使用foreach查询123号的博客-->
+    <select id="query123" parameterType="map" resultType="Blog">
+        select * from user.blog
+    <where>
+        <choose>
+            <when test="id!=null">
+                <foreach collection="ids" item="id" open=" (" separator="or" close=")">
+                    id=#{id}
+                </foreach>
+            </when>
+        </choose>
+    </where>
+    </select>
+</mapper>

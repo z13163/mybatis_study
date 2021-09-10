@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace绑定一个对应的Dao/Mapper接口-->
+<!--id：对应namespace方法名-->
+<!--resultType:sql语句的返回值-->
+<mapper namespace="com.kq.dao.UserMapper">
+
+<!--    在当前xml中使用二级缓存(命名空间)-->
+<!--    若没有配置参数,则会提示没有序列化-->
+    <cache/>
+<!--    结果集映射-->
+    <resultMap id="UserMap" type="User">
+        <result column="id" property="id"></result>
+        <result column="name" property="username"></result>
+        <result column="pwd" property="pwd"></result>
+    </resultMap>
+    <select id="queryUserById" resultMap="UserMap" useCache="true">
+        select * from user.mybatis_tb
+<where>
+    <if test="id!=null">id=#{id}</if>
+</where>
+    </select>
+
+
+</mapper>
